@@ -9,7 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello World")
+        NavigationView{
+            ScrollView{
+                LazyVGrid(columns: []){
+                }
+            }.navigationTitle("Moonshot")
+        }.preferredColorScheme(.dark)
     }
 }
 
