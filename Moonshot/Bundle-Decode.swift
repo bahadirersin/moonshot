@@ -9,7 +9,7 @@ import Foundation
 
 extension Bundle{
     func decode<T:Codable>(file:String) -> T {
-        guard let url = Bundle.main.url(forResource: file, withExtension: nil) else{
+        guard let url = self.url(forResource: file, withExtension: nil) else{
             fatalError("Json file missing")
         }
         
@@ -17,9 +17,15 @@ extension Bundle{
             fatalError("Can not read data")
         }
         
-        guard let decodedContent = try? JSONDecoder().decode(T.self, from: data) else{
-            fatalError("Can not parse data")
+        let decoder = JSONDecoder()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "y-MM-dd"
+        decoder.dateDecodingStrategy = .formatted(formatter)
+        
+        guard let decodedContent = try? decoder.decode(T.self, from: data) else{
+            fatalError("Can not parse data \(file)")
         }
+        
         
         return decodedContent
     }
